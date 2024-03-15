@@ -9,6 +9,7 @@
 		</title>
 		{% block stylesheets %}
 			<link href="https://bootswatch.com/5/vapor/bootstrap.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 			<link rel="icon" type="image/png" href="{{asset('img/logo.png')}}"/>
 		{% endblock %}
 	</head>
@@ -20,36 +21,69 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarColor01">
-					<ul class="navbar-nav me-auto">
+					<ul class="navbar-nav me-auto"></li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Features</a>
+							<a class="nav-link" href="{{path('app_contact')}}">Contact
+							</a>
+						</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Jeux</a>
+						<div class="dropdown-menu">
+							{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MOD') %}
+								<a class="dropdown-item" href="{{path('app_ajouter_jeux')}}">Ajouter Jeux</a>
+							{% endif %}
+							<a class="dropdown-item" href="{{path('app_liste-jeux')}}">Liste Jeux</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="navbar-nav ">
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_login')}}">Se connecter
+							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Pricing</a>
+							<a class="nav-link" href="{{path('app_register')}}">S'inscrire
+							</a>
 						</li>
+					{% else %}
+						{% if is_granted('ROLE_ADMIN')%}
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">ADMIN</a>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="{{path('app_liste-users')}}">Liste Users</a>
+									<a class="dropdown-item" href="{{path('app_categorie')}}">Ajouter catégorie</a>
+									<a class="dropdown-item" href="{{path('app_liste-categories')}}">Liste catégories</a>
+								</div>
+							</li>
+						{% endif %}
 						<li class="nav-item">
-							<a class="nav-link" href="#">About</a>
+								<a class="nav-link" href="{{path('app_profil')}}">
+									<i class="bi bi-person-circle"></i>
+								</a>
+							</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_logout')}}">
+								<i class="bi
+									bi-x-circle-fill"></i>
+							</a>
 						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Separated link</a>
-							</div>
-						</li>
-					</ul>
-					<form class="d-flex">
-						<input class="form-control me-sm-2" type="search" placeholder="Search">
-						<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-					</form>
+					{% endif %}
 				</div>
 			</div>
 		</nav>
 		{% for message in app.flashes('notice') %}
-			<h2 class="alert alert-info text-center mt-4 mb-4" role="alert">
+			<h2 class="alert alert-succes text-center mt-4 mb-4" role="alert">
+				{{ message }}
+			</h2>
+		{% endfor %}
+		{% for message in app.flashes('noticer') %}
+			<h2 class="alert alert-danger text-center mt-4 mb-4" role="alert">
+				{{ message }}
+			</h2>
+		{% endfor %}
+		{% for message in app.flashes('noticej') %}
+			<h2 class="alert alert-warning text-center mt-4 mb-4" role="alert">
 				{{ message }}
 			</h2>
 		{% endfor %}

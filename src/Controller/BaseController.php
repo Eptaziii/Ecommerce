@@ -40,7 +40,7 @@ class BaseController extends AbstractController
         ]);
     }
 
-    #[Route('/ajouterJeux', name: 'app_ajouterJeux')]
+    #[Route('/admin-ajouter-jeux', name: 'app_ajouter_jeux')]
     public function ajouterJeux(Request $request, EntityManagerInterface $em): Response
     {
         $jeu = new Jeux();
@@ -51,7 +51,7 @@ class BaseController extends AbstractController
                 $em->persist($jeu);
                 $em->flush();
                 $this->addFlash('notice','Jeu ajouté');
-                return $this->redirectToRoute('app_ajouterJeux');
+                return $this->redirectToRoute('app_ajouter_jeux');
             }
         }    
         return $this->render('base/ajouter-jeux.html.twig', [
