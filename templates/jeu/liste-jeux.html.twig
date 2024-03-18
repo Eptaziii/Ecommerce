@@ -7,7 +7,7 @@
 		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
 			Liste Jeux</h1>
         <div class="row justify-content-center">
-            <div class="col-12 col-md-8 bg-white p-4 m-0 text-primary">
+            <div class="col-12 col-md-8 p-4 m-0 text-primary">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -15,6 +15,7 @@
                                 <th scope="col">Nom</th>
                                 <th scope="col">Catégorie</th>
                                 <th scope="col">Prix</th>
+                                <th scope="col">Petite description</th>
                                 <th scope="col">Description</th>
                             </tr>
                         </thead>
@@ -22,8 +23,9 @@
                         {% for jeu in jeux %}
                             <tr class="{{ cycle(['table-primary','table-secondary'], loop.index0) }}">
                             <td>{{ jeu.nom | capitalize }}</td>
-                            <td>{{ jeu.categorie | capitalize }}</td>
+                            <td>{{ jeu.categorie.libelle | capitalize }}</td>
                             <td>{{ jeu.prix }}</td>
+                            <td>{{ jeu.pDescription }}</td>
                             <td>{{ jeu.description }}</td>
                             </tr>
                         {% endfor %}

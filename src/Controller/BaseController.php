@@ -10,6 +10,7 @@ use App\Form\JeuxType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Contact;
 use App\Entity\Jeux;
+use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
 
 class BaseController extends AbstractController

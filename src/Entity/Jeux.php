@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JeuxRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,13 +20,25 @@ class Jeux
     private ?string $nom = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $categorie = null;
-
-    #[ORM\Column(length: 100)]
-    private ?string $prix = null;
+    private ?float $prix = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $pDescription = null;
+
+    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'jeux', orphanRemoval: true)]
+    private Collection $images;
+
+    #[ORM\ManyToOne(inversedBy: 'jeuxes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categorie $categorie = null;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,24 +57,12 @@ class Jeux
         return $this;
     }
 
-    public function getCategorie(): ?string
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(string $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    public function getPrix(): ?string
+    public function getPrix(): ?float
     {
         return $this->prix;
     }
 
-    public function setPrix(string $prix): static
+    public function setPrix(float $prix): static
     {
         $this->prix = $prix;
 
@@ -75,6 +77,60 @@ class Jeux
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPDescription(): ?string
+    {
+        return $this->pDescription;
+    }
+
+    public function setPDescription(string $pDescription): static
+    {
+        $this->pDescription = $pDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setJeux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getJeux() === $this) {
+                $image->setJeux(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
