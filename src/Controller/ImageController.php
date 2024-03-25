@@ -22,18 +22,14 @@ class ImageController extends AbstractController
             if ($form->isSubmitted()&&$form->isValid()){
                 $file = $form->get('image')->getData();
                 if($file){
-                    $nomFichierServeur = pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);
-                    $nomFichierServeur = $slugger->slug($nomFichierServeur);
-                    $nomFichierServeur = $nomFichierServeur.'-'.uniqid().'.'.$file->guessExtension();
                     try{
-                        $image->setNomServeur($nomFichierServeur);
-                        $image->setNomOriginal($file->getClientOriginalName());
+                        $image->setNom($file->getClientOriginalName());
                         $image->setDateEnvoi(new \Datetime());
                         $image->setExtension($file->guessExtension());
                         $image->setTaille($file->getSize());
                         $em->persist($image);
                         $em->flush();
-                        $file->move($this->getParameter('file_directory'), $nomFichierServeur);
+                        $file->move($this->getParameter('file_directory'), $nom);
                         $this->addFlash('notice', 'Image ajoutée');
                         return $this->redirectToRoute('app_ajouter_image');
                     }

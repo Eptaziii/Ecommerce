@@ -15,10 +15,7 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nomOriginal = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $nomServeur = null;
+    private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateEnvoi = null;
@@ -38,26 +35,14 @@ class Image
         return $this->id;
     }
 
-    public function getNomOriginal(): ?string
+    public function getNom(): ?string
     {
-        return $this->nomOriginal;
+        return $this->nom;
     }
 
-    public function setNomOriginal(string $nomOriginal): static
+    public function setNom(string $nom): static
     {
-        $this->nomOriginal = $nomOriginal;
-
-        return $this;
-    }
-
-    public function getNomServeur(): ?string
-    {
-        return $this->nomServeur;
-    }
-
-    public function setNomServeur(string $nomServeur): static
-    {
-        $this->nomServeur = $nomServeur;
+        $this->nom = $nom;
 
         return $this;
     }

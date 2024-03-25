@@ -12,13 +12,19 @@ use App\Entity\Contact;
 use App\Entity\Jeux;
 use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\CategorieRepository;
+use App\Repository\JeuxRepository;
 
 class BaseController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(): Response
+    public function index(CategorieRepository $categorieRepository, JeuxRepository $jeuxRepository): Response
     {
+        $jeux = $jeuxRepository->findAll();
+        $categories = $categorieRepository->findAll();
         return $this->render('base/index.html.twig', [
+            'categories' => $categories,
+            'jeux' => $jeux
         ]);
     }
 

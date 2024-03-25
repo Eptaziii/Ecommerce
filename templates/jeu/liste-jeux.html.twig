@@ -15,7 +15,6 @@
                                 <th scope="col">Nom</th>
                                 <th scope="col">Catégorie</th>
                                 <th scope="col">Prix</th>
-                                <th scope="col">Petite description</th>
                                 <th scope="col">Description</th>
                             </tr>
                         </thead>
@@ -25,7 +24,6 @@
                             <td>{{ jeu.nom | capitalize }}</td>
                             <td>{{ jeu.categorie.libelle | capitalize }}</td>
                             <td>{{ jeu.prix }}</td>
-                            <td>{{ jeu.pDescription }}</td>
                             <td>{{ jeu.description }}</td>
                             </tr>
                         {% endfor %}

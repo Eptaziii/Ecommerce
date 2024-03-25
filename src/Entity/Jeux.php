@@ -25,9 +25,6 @@ class Jeux
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $pDescription = null;
-
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'jeux', orphanRemoval: true)]
     private Collection $images;
 
@@ -77,18 +74,6 @@ class Jeux
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getPDescription(): ?string
-    {
-        return $this->pDescription;
-    }
-
-    public function setPDescription(string $pDescription): static
-    {
-        $this->pDescription = $pDescription;
 
         return $this;
     }
