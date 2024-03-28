@@ -22,6 +22,8 @@ class ImageController extends AbstractController
             if ($form->isSubmitted()&&$form->isValid()){
                 $file = $form->get('image')->getData();
                 if($file){
+                    $nom=pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);
+                    $nom=$nom . '.' . $file->guessExtension();
                     try{
                         $image->setNom($file->getClientOriginalName());
                         $image->setDateEnvoi(new \Datetime());
