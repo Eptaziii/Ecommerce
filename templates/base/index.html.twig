@@ -56,7 +56,9 @@
 										<div class"card-body">
 											<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 										</div>
-										<h6 class="card-footer text-center">{{j.prix}}€ <i class="bi bi-suit-heart"></i></h6>
+										<h6 class="card-footer text-center">{{j.prix}} €</h6>
+										<button type="button" class="btn btn-danger"><i class="bi bi-heart" title="Mettre en favori"></i></button>
+										<button type="button" class="btn btn-success"><i class="bi bi-cart" title="Ajouter au panier"></i></button>
 									</div>
 								</div>
 							{% endfor %}
