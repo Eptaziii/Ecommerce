@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\ModifRoleType;
 
 class SecurityController extends AbstractController
 {
@@ -40,6 +41,27 @@ class SecurityController extends AbstractController
         $users=$userRepository->findAll();
         return $this->render('security/liste-users.html.twig', [
             'users'=>$users
+        ]);
+    }
+
+    #[Route('/admin-roleUtilisateur/{id}', name: 'app_roleUtilisateur')]
+    public function contact(Request $request, User $user, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(ModifRoleType::class, $user);
+        if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if ($form->isSubmitted()&&$form->isValid()){
+                $r[] = $form->get('roles')->getData();
+                $user->setRoles($r);
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('notice','Rôle modifiée');
+                return $this->redirectToRoute('app_liste-users');
+            }
+        }
+
+        return $this->render('security/modifRole.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 

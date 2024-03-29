@@ -42,6 +42,7 @@
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">ADMIN</a>
 								<div class="dropdown-menu">
+									<a class="dropdown-item" href="{{path('app_liste-contacts')}}">Liste Contacts</a>
 									<a class="dropdown-item" href="{{path('app_liste-users')}}">Liste Users</a>
 									<a class="dropdown-item" href="{{path('app_categorie')}}">Ajouter catégorie</a>
 									<a class="dropdown-item" href="{{path('app_liste-categories')}}">Liste catégories</a>
@@ -52,12 +53,12 @@
 							</li>
 						{% endif %}
 						<li class="nav-item">
-							<a class="nav-link" href="{{path('app_profil')}}">
+							<a class="nav-link" href="{{path('app_profil')}}" data-placement="bottom" data-toggle="tooltip" title="Profil">
 								<i class="bi bi-person-circle"></i>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="{{path('app_logout')}}">
+							<a class="nav-link" href="{{path('app_logout')}}" data-placement="bottom" data-toggle="tooltip" title="Déconnexion">
 								<i class="bi bi-x-circle-fill"></i>
 							</a>
 						</li>

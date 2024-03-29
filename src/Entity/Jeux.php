@@ -32,9 +32,13 @@ class Jeux
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'aimer')]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,6 +120,33 @@ class Jeux
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(User $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->addAimer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(User $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            $favori->removeAimer($this);
+        }
 
         return $this;
     }

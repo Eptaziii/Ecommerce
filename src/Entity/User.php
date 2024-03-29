@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -38,6 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
+
+    #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'favoris')]
+    private Collection $aimer;
+
+    public function __construct()
+    {
+        $this->aimer = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,6 +151,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Jeux>
+     */
+    public function getAimer(): Collection
+    {
+        return $this->aimer;
+    }
+
+    public function addAimer(Jeux $aimer): static
+    {
+        if (!$this->aimer->contains($aimer)) {
+            $this->aimer->add($aimer);
+        }
+
+        return $this;
+    }
+
+    public function removeAimer(Jeux $aimer): static
+    {
+        $this->aimer->removeElement($aimer);
 
         return $this;
     }

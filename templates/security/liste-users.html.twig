@@ -17,6 +17,7 @@
                                 <th scope="col">Prenom</th>
                                 <th scope="col">Date d'inscription</th>
                                 <th scope="col">Rôle</th>
+                                <th scope="col">Modif Rôle</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,6 +34,7 @@
                                     {% else %}
                                         <td>Utilisateur</td>
                                     {% endif %}
+                                    <td><a href="{{path("app_roleUtilisateur",{'id':user.id})}}"><i class="bi bi-pen-fill text-dark"></i></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
