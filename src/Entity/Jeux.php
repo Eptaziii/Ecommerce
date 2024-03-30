@@ -28,12 +28,12 @@ class Jeux
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'jeux', orphanRemoval: true)]
     private Collection $images;
 
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'aimer')]
+    private Collection $favoris;
+
     #[ORM\ManyToOne(inversedBy: 'jeuxes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
-
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'aimer')]
-    private Collection $favoris;
 
     public function __construct()
     {
@@ -112,18 +112,6 @@ class Jeux
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): static
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, User>
      */
@@ -151,4 +139,17 @@ class Jeux
         return $this;
     }
 
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    
 }

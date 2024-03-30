@@ -19,7 +19,7 @@ class ImageType extends AbstractType
         $builder
             ->add('image', FileType::class, array('label' => 'Image', 'mapped'=>false,'attr' => ['class'=>'form-control'], 'label_attr' => ['class'=> 'fw-bold'],'constraints' => [
                 new File([
-                'maxSize' => '10000k',
+                'maxSize' => '10000000000k',
                 'mimeTypes' => [
                     'application/pdf',
                     'application/x-pdf',

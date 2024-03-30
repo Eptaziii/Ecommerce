@@ -23,8 +23,11 @@
 		</h5>
 		<div id="carouselExampleIndicators" class="carousel slide mx-auto mt-4 pt-4 fw-bold" style="width:18rem">
 			<div class="carousel-inner">
-				{% for j in jeux %}
-					<div class="carousel-item active">
+				<div class="carousel-item active">
+					<img src="img/logo.png" class="card-img-top" alt="Image du site">
+				</div>
+				{% for j in jeux | sort((a,b)=> a.nom <=> b.nom) %}
+					<div class="carousel-item">
 						<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 					</div>
 				{% endfor %}
@@ -38,14 +41,25 @@
 				<span class="visually-hidden">Next</span>
 			</button>
 		</div>
+		<h4 class="text-center text-success mt-4 pt-4 fw-bold"> Nombre de jeux disponibles : {{jeux | length}}</h4>
 		<h5 class="text-center text-primary mt-4 pt-4 fw-bold">
 			Liste des jeux par catégorie</h5>
 		<div class="row justify-content-center pt-5">
 			<div>
 				{% for c in categories | sort((a,b)=> a.libelle <=> b.libelle) %}
-					<h2 class"text-white">
-						<strong>{{c.libelle | upper }}</strong>
-					</h2>
+					{% if c.jeuxes | length == 1 %}
+						<h2 class"text-white">
+							<strong>{{c.libelle | upper }}</strong><strong class="text-secondary"> ({{c.jeuxes | length}} Jeu)</strong>
+						</h2>
+					{% elseif c.jeuxes | length == 0 %}
+						<h2 class"text-white">
+							<strong>{{c.libelle | upper }}</strong>
+						</h2>
+					{% else %}
+						<h2 class"text-white">
+							<strong>{{c.libelle | upper }}</strong><strong class="text-secondary"> ({{c.jeuxes | length}} Jeux)</strong>
+						</h2>
+					{% endif %}
 					<div class"card-group g-4 pt-4">
 						{% if c.jeuxes | length > 0 %}
 						<div class="row row-cols-1 row-cols-md-5 g-4 pt-4">
@@ -56,7 +70,11 @@
 										<div class"card-body">
 											<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 										</div>
-										<h6 class="card-footer text-center">{{j.prix}} €</h6>
+										{% if j.prix == 0 %}
+											<h6 class="card-footer text-center">GRATUIT</h6>
+										{% else %}
+											<h6 class="card-footer text-center">{{j.prix}} €</h6>
+										{% endif %}
 										<button type="button" class="btn btn-danger"><i class="bi bi-heart" title="Mettre en favori"></i></button>
 										<button type="button" class="btn btn-success"><i class="bi bi-cart" title="Ajouter au panier"></i></button>
 									</div>
