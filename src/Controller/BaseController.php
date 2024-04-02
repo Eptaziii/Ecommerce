@@ -49,7 +49,7 @@ class BaseController extends AbstractController
         ]);
     }
 
-    #[Route('/admin-ajouter-jeux', name: 'app_ajouter_jeux')]
+    #[Route('/mod-ajouter-jeux', name: 'app_ajouter_jeux')]
     public function ajouterJeux(Request $request, EntityManagerInterface $em): Response
     {
         $jeu = new Jeux();

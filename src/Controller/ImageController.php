@@ -13,7 +13,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ImageController extends AbstractController
 {
-    #[Route('/admin-ajouter-image', name: 'app_ajouter_image')]
+    #[Route('/mod-ajouter-image', name: 'app_ajouter_image')]
     public function ajouterImage(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $image = new Image();

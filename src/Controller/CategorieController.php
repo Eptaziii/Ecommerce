@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CategorieController extends AbstractController
 {
-    #[Route('/private-categorie', name: 'app_categorie')]
+    #[Route('/mod-categorie', name: 'app_categorie')]
     public function categorie(Request $request, EntityManagerInterface $em): Response
     {  
         $categorie = new Categorie();
@@ -34,7 +34,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/private-liste-categories', name: 'app_liste-categories', methods: ['GET', 'POST'])]
+    #[Route('/mod-liste-categories', name: 'app_liste-categories', methods: ['GET', 'POST'])]
     public function listeCategories(Request $request, CategorieRepository $categorieRepository,
     EntityManagerInterface $em): Response
     {
@@ -44,7 +44,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/private-modifier-categorie/{id}', name: 'app_modifier_categorie')]
+    #[Route('/mod-modifier-categorie/{id}', name: 'app_modifier_categorie')]
     public function modifierCategorie(Request $request,Categorie $categorie,EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ModifierCategorieType::class, $categorie);
@@ -62,7 +62,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/private-supprimer-categorie/{id}', name: 'app_supprimer_categorie')]
+    #[Route('/mod-supprimer-categorie/{id}', name: 'app_supprimer_categorie')]
     public function supprimerCategorie(Request $request,Categorie $categorie,EntityManagerInterface $em): Response
     {   
         if($categorie!=null){
