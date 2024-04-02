@@ -32,25 +32,40 @@
 		<div class="row">
 			<div class="col-6 m-5">
 				<div class="accordion accordion-flush" id="accordionFlushExample">
-  					<div class="accordion-item">
-    					<h2 class="accordion-header" id="flush-headingOne">
-      						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        						Description du jeu :
-      						</button>
-    					</h2>
-    					<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      						<div class="accordion-body"><h5>{{jeu.description}}</h5>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-headingOne">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+								Description du jeu :
+							</button>
+						</h2>
+						<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+							<div class="accordion-body">
+								<h5>{{jeu.description}}</h5>
 							</div>
-  						</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col m-5">
-				<br><h4 class="text-info">Le prix du jeu : {{jeu.prix}} €</h4>
+				<br><h4 class="text-info">Le prix du jeu :
+					{{jeu.prix}}
+					€</h4>
 				<p>
-					<button type="button" class="btn btn-danger" style="width:360px">
-						<i class="bi bi-heart" title="Mettre en favori"></i>
-					</button>
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						{% if jeu in app.user.aimer %}
+							<a class="btn btn-danger" href="{{path('app_aimer_page',{'id':jeu.id})}}" role="button" style="width:360px">
+								<i class="bi bi-heart-fill" title="Mettre en favori"></i>
+							</a>
+						{% else %}
+							<a class="btn btn-danger" href="{{path('app_aimer_page',{'id':jeu.id})}}" role="button" style="width:360px">
+								<i class="bi bi-heart" title="Mettre en favori"></i>
+							</a>
+						{% endif %}
+					{% else %}
+						<a class="btn btn-danger" href="{{path('app_aimer_page',{'id':jeu.id})}}" role="button" style="width:360px">
+							<i class="bi bi-heart" title="Mettre en favori"></i>
+						</a>
+					{% endif %}
 					<button type="button" class="btn btn-success" style="width:360px">
 						<i class="bi bi-cart" title="Ajouter au panier"></i>
 					</button>

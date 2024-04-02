@@ -26,12 +26,6 @@
 						<a class="nav-link" href="{{path('app_contact')}}">Contact
 						</a>
 					</li>
-					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						<li class="nav-item">
-							<a class="nav-link" href="{{path('app_liste_favoris')}}">Favoris
-							</a>
-						</li>
-					{% endif %}
 				</ul>
 				<ul class="navbar-nav ">
 					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -58,6 +52,11 @@
 								</div>
 							</li>
 						{% endif %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_liste_favoris')}}"data-placement="bottom" data-toggle="tooltip" title="Favoris">
+								<i class="bi bi-heart-fill"></i>
+							</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{{path('app_profil')}}" data-placement="bottom" data-toggle="tooltip" title="Profil">
 								<i class="bi bi-person-circle"></i>

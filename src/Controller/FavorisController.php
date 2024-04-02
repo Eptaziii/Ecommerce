@@ -33,4 +33,30 @@ class FavorisController extends AbstractController
             'favoris'=> $favoris
         ]);
     }
+
+    #[Route('/private-desaimer-favoris/{id}', name: 'app_desaimer_favoris')]
+    public function desaimerFavoris(Jeux $jeu, EntityManagerInterface $em): Response
+    {
+        if ($this->getUser()->getAimer()->contains($jeu)) {
+            $this->getUser()->removeAimer($jeu);
+        } else {
+            $this->getUser()->addAimer($jeu);
+        }
+        $em->persist($this->getUser());
+        $em->flush();
+        return $this->redirectToRoute('app_liste_favoris');
+    }
+
+    #[Route('/private-aimer-page/{id}', name: 'app_aimer_page')]
+    public function aimerPage(Jeux $jeu, EntityManagerInterface $em): Response
+    {
+        if ($this->getUser()->getAimer()->contains($jeu)) {
+            $this->getUser()->removeAimer($jeu);
+        } else {
+            $this->getUser()->addAimer($jeu);
+        }
+        $em->persist($this->getUser());
+        $em->flush();
+        return $this->redirectToRoute('app_accueil');
+    }
 }
