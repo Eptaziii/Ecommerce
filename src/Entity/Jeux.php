@@ -41,12 +41,16 @@ class Jeux
     #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'jeux')]
     private Collection $videos;
 
+    #[ORM\OneToMany(targetEntity: Ajouter::class, mappedBy: 'jeux', orphanRemoval: true)]
+    private Collection $ajouters;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->vouloirs = new ArrayCollection();
         $this->videos = new ArrayCollection();
+        $this->ajouters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +217,36 @@ class Jeux
             // set the owning side to null (unless already changed)
             if ($video->getJeux() === $this) {
                 $video->setJeux(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ajouter>
+     */
+    public function getAjouters(): Collection
+    {
+        return $this->ajouters;
+    }
+
+    public function addAjouter(Ajouter $ajouter): static
+    {
+        if (!$this->ajouters->contains($ajouter)) {
+            $this->ajouters->add($ajouter);
+            $ajouter->setJeux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAjouter(Ajouter $ajouter): static
+    {
+        if ($this->ajouters->removeElement($ajouter)) {
+            // set the owning side to null (unless already changed)
+            if ($ajouter->getJeux() === $this) {
+                $ajouter->setJeux(null);
             }
         }
 

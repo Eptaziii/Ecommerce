@@ -81,14 +81,14 @@
 											{% else %}
 												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
 											{% endif %}
-											{% if j in app.user.aimer %}
-												<a class="btn btn-success" href="{{path('app_vouloir',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+											{% if j in app.user.panier.ajouters %}
+												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart-fill" title="Ajouter au panier"></i></a>
 											{% else %}
-												<a class="btn btn-success" href="{{path('app_vouloir',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
 											{% endif %}
 										{% else %}
 											<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
-											<a class="btn btn-success" href="#" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+											<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
 										{% endif %}
 									</div>
 								</div>

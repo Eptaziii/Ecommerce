@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Jeux;
+use App\Entity\Panier;
+use App\Entity\Ajouter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,16 +12,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PanierController extends AbstractController
 {
-    #[Route('/private-vouloir/{id}', name: 'app_vouloir')]
-    public function vouloir(Jeux $jeu, EntityManagerInterface $em): Response
+    #[Route('/private-ajout-panier/{id}', name: 'app_ajout_panier')]
+    public function ajoutPanier(EntityManagerInterface $em, Jeux $jeu): Response
     {
-        if ($this->getUser()->getVouloirs()->contains($jeu)) {
-            $this->getUser()->removeVouloir($jeu);
+        if ($this->getUser()->getPanier() == null){
+            $panier = new Panier();
+            $this->getUser()->setPanier($panier);
         } else {
-            $this->getUser()->addVouloir($jeu);
+            $panier = $this->getUser()->getPanier;
         }
-        $em->persist($this->getUser());
-        $em->flush();
+        $ajouter = new Ajouter();
+        $ajouter->setPanier($panier);
+        $ajouter->setJeux($jeu);
+        $ajouter->setQuantite(1);
+        $panier->addAjouter($ajouter);
+        $em -> persist($ajouter);
+        $em -> persist($panier);
+        $em -> persist($this->getUser());
+        $em -> flush();
         return $this->redirectToRoute('app_accueil');
     }
 }
