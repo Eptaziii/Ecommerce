@@ -57,6 +57,6 @@ class FavorisController extends AbstractController
         }
         $em->persist($this->getUser());
         $em->flush();
-        return $this->redirectToRoute('app_accueil');
+        return $this->redirectToRoute('app_jeu', ['id'=> $jeu->getId()]);
     }
 }

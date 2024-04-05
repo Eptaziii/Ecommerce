@@ -44,9 +44,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Jeux::class, inversedBy: 'favoris')]
     private Collection $aimer;
 
+    #[ORM\OneToMany(targetEntity: Vouloir::class, mappedBy: 'user')]
+    private Collection $vouloirs;
+
     public function __construct()
     {
         $this->aimer = new ArrayCollection();
+        $this->vouloirs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +179,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeAimer(Jeux $aimer): static
     {
         $this->aimer->removeElement($aimer);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vouloir>
+     */
+    public function getVouloirs(): Collection
+    {
+        return $this->vouloirs;
+    }
+
+    public function addVouloir(Vouloir $vouloir): static
+    {
+        if (!$this->vouloirs->contains($vouloir)) {
+            $this->vouloirs->add($vouloir);
+            $vouloir->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVouloir(Vouloir $vouloir): static
+    {
+        if ($this->vouloirs->removeElement($vouloir)) {
+            // set the owning side to null (unless already changed)
+            if ($vouloir->getUser() === $this) {
+                $vouloir->setUser(null);
+            }
+        }
 
         return $this;
     }

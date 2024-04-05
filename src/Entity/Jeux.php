@@ -35,10 +35,18 @@ class Jeux
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
+    #[ORM\OneToMany(targetEntity: Vouloir::class, mappedBy: 'jeu')]
+    private Collection $vouloirs;
+
+    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'jeux')]
+    private Collection $videos;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->vouloirs = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,6 +155,66 @@ class Jeux
     public function setCategorie(?Categorie $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vouloir>
+     */
+    public function getVouloirs(): Collection
+    {
+        return $this->vouloirs;
+    }
+
+    public function addVouloir(Vouloir $vouloir): static
+    {
+        if (!$this->vouloirs->contains($vouloir)) {
+            $this->vouloirs->add($vouloir);
+            $vouloir->setJeu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVouloir(Vouloir $vouloir): static
+    {
+        if ($this->vouloirs->removeElement($vouloir)) {
+            // set the owning side to null (unless already changed)
+            if ($vouloir->getJeu() === $this) {
+                $vouloir->setJeu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Video>
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): static
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos->add($video);
+            $video->setJeux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): static
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getJeux() === $this) {
+                $video->setJeux(null);
+            }
+        }
 
         return $this;
     }

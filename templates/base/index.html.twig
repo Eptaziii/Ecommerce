@@ -81,10 +81,15 @@
 											{% else %}
 												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
 											{% endif %}
+											{% if j in app.user.aimer %}
+												<a class="btn btn-success" href="{{path('app_vouloir',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+											{% else %}
+												<a class="btn btn-success" href="{{path('app_vouloir',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+											{% endif %}
 										{% else %}
 											<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
+											<a class="btn btn-success" href="#" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
 										{% endif %}
-										<a class="btn btn-success" href="#" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
 									</div>
 								</div>
 							{% endfor %}
