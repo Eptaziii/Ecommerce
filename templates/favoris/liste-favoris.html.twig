@@ -22,24 +22,20 @@
 										<h6 class="card-footer text-center">{{f.prix}}
 											€</h6>
 									{% endif %}
-									{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-										{% if f in app.user.aimer %}
-											<a class="btn btn-danger" href="{{path('app_desaimer_favoris',{'id':f.id})}}" role="button">
-												<i class="bi bi-heart-fill" title="Mettre en favori"></i>
-											</a>
-										{% else %}
-											<a class="btn btn-danger" href="{{path('app_desaimer_favoris',{'id':f.id})}}" role="button">
-												<i class="bi bi-heart" title="Mettre en favori"></i>
-											</a>
-										{% endif %}
-									{% else %}
-										<a class="btn btn-danger" href="{{path('app_desaimer_favoris',{'id':f.id})}}" role="button">
-											<i class="bi bi-heart" title="Mettre en favori"></i>
-										</a>
-									{% endif %}
-									<a class="btn btn-success" href="#" role="button">
-										<i class="bi bi-cart" title="Ajouter au panier"></i>
+									<a class="btn btn-danger" href="{{path('app_desaimer_favoris',{'id':f.id})}}" role="button">
+										<i class="bi bi-heart-fill" title="Mettre en favori"></i>
 									</a>
+									{% set verif = false %}
+									{% for panier in app.user.panier.ajouters %}
+										{% if panier.jeux == f %}
+											{% set verif = true %}
+										{% endif %}
+									{% endfor %}
+									{% if verif %}
+										<a class="btn btn-warning" href="{{path('app_supp_panier_favoris',{'id':f.id})}}" role="button"><i class="bi bi-cart-x-fill" title="Ajouter au panier"></i></a>
+									{% else %}
+										<a class="btn btn-success" href="{{path('app_ajout_panier_favoris',{'id':f.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+									{% endif %}
 								</div>
 							</div>
 						{% endfor %}

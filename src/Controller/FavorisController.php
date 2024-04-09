@@ -26,7 +26,7 @@ class FavorisController extends AbstractController
     }
 
     #[Route('/private-liste-favoris', name: 'app_liste_favoris')]
-    public function favoris(JeuxRepository $jr): Response
+    public function favoris(): Response
     {
         $favoris=$this->getUser()->getAimer();
         return $this->render('favoris/liste-favoris.html.twig', [
@@ -45,6 +45,19 @@ class FavorisController extends AbstractController
         $em->persist($this->getUser());
         $em->flush();
         return $this->redirectToRoute('app_liste_favoris');
+    }
+
+    #[Route('/private-aimer-panier/{id}', name: 'app_aimer_panier')]
+    public function aimerPanier(Jeux $jeu, EntityManagerInterface $em): Response
+    {
+        if ($this->getUser()->getAimer()->contains($jeu)) {
+            $this->getUser()->removeAimer($jeu);
+        } else {
+            $this->getUser()->addAimer($jeu);
+        }
+        $em->persist($this->getUser());
+        $em->flush();
+        return $this->redirectToRoute('app_panier');
     }
 
     #[Route('/private-aimer-page/{id}', name: 'app_aimer_page')]

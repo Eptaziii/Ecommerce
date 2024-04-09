@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{parent()}}Panier
+{% endblock %}
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+			Panier</h1>
+		{% set prixTT = 0 %}
+		{% for j in jeux %}
+			{% set qte = 0 %}
+			{% set prixTJeu = 0 %}
+			{% set verif = false %}
+			{% for p in panier %}
+				{% if p.jeux == j %}
+					{% set qte = p.quantite %}
+					{% set verif = true %}
+					{% set prixTJeu = qte * j.prix %}
+				{% endif %}
+			{% endfor %}
+			{% set prixTT = prixTT + prixTJeu %}
+		{% endfor %}
+		<h2 class="text-center text-success">Le prix du panier : {{prixTT}} €</h2>
+		<div class="row justify-content-center pt-5">
+			<div>
+				<div class="row row-cols-1 row-cols-md-5 g-4 pt-4">
+					{% for j in jeux %}
+						{% set qte = 0 %}
+						{% set prixTJeu = 0 %}
+						{% set verif = false %}
+						{% for p in panier %}
+							{% if p.jeux == j %}
+								{% set qte = p.quantite %}
+								{% set verif = true %}
+								{% set prixTJeu = qte * j.prix %}
+							{% endif %}
+						{% endfor %}
+						{% if verif %}
+							<div class="col">
+								<div class="card pb-4 ">
+									<h6 class="card-header text-center">{{j.nom}}</h6>
+									<div class"card-body">
+										<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
+									</div>
+									{% if j.prix == 0 %}
+										<h6 class="card-footer text-center">GRATUIT</h6>
+									{% else %}
+										<div class="card-footer text-center">
+											<h6>{{j.prix}} €</h6>
+											<h6>
+												<a href="{{path('app_supp_quantite',{'id':j.id})}}">
+													<i class="bi bi-dash-circle"></i>
+												</a>
+												{{qte}} 
+												<a href="{{path('app_ajout_quantite',{'id':j.id})}}">
+													<i class="bi bi-plus-circle"></i>
+												</a>
+											</h6>
+											<h6> Prix total du jeu : {{prixTJeu}} €</h6>
+										</div>
+									{% endif %}
+									{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+										{% if j in app.user.aimer %}
+											<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button">
+												<i class="bi bi-heart-fill" title="Mettre en favori"></i>
+											</a>
+										{% else %}
+											<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button">
+												<i class="bi bi-heart" title="Mettre en favori"></i>
+											</a>
+										{% endif %}											
+										<a class="btn btn-warning" href="{{path('app_supp_panier_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart-x-fill"></i></a>
+									{% else %}
+										<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button">
+											<i class="bi bi-heart" title="Mettre en favori"></i>
+										</a>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

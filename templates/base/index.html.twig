@@ -62,7 +62,7 @@
 					{% endif %}
 					<div class"card-group g-4 pt-4">
 						{% if c.jeuxes | length > 0 %}
-						<div class="row row-cols-1 row-cols-md-5 g-4 pt-4">
+						<div class="row row-cols-md-5 g-4 pt-4">
 							{% for j in c.jeuxes | sort((a,b)=> a.nom <=> b.nom) %}
 								<div class="col">
 									<div class="card pb-4">
@@ -80,9 +80,15 @@
 												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart-fill" title="Mettre en favori"></i></a>
 											{% else %}
 												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
-											{% endif %}
-											{% if j in app.user.panier.ajouters %}
-												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart-fill" title="Ajouter au panier"></i></a>
+											{% endif %}												
+											{% set verif = false %}
+											{% for panier in app.user.panier.ajouters %}
+												{% if panier.jeux == j %}
+													{% set verif = true %}
+												{% endif %}
+											{% endfor %}
+											{% if verif %}
+												<a class="btn btn-warning" href="{{path('app_supp_panier_accueil',{'id':j.id})}}" role="button"><i class="bi bi-cart-x-fill" title="Ajouter au panier"></i></a>
 											{% else %}
 												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
 											{% endif %}
