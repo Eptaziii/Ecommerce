@@ -62,12 +62,14 @@
 					{% endif %}
 					<div class"card-group g-4 pt-4">
 						{% if c.jeuxes | length > 0 %}
-						<div class="row row-cols-md-5 g-4 pt-4">
+						<div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4 pt-4">
 							{% for j in c.jeuxes | sort((a,b)=> a.nom <=> b.nom) %}
 								<div class="col">
 									<div class="card pb-4">
-										<h6 class="card-header text-center">{{j.nom}}</h6>
-										<div class"card-body">
+										<div class="card-header text-center">
+											<h6>{{j.nom}}</h6>
+										</div>
+										<div class"card-body text-center">
 											<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 										</div>
 										{% if j.prix == 0 %}
