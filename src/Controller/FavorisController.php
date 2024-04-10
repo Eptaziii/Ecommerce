@@ -17,8 +17,10 @@ class FavorisController extends AbstractController
     {
         if ($this->getUser()->getAimer()->contains($jeu)) {
             $this->getUser()->removeAimer($jeu);
+            $this->addFlash('noticer',$jeu->getNom().' supprimé des favoris');
         } else {
             $this->getUser()->addAimer($jeu);
+            $this->addFlash('notice',$jeu->getNom().' ajouté aux favoris');
         }
         $em->persist($this->getUser());
         $em->flush();
@@ -52,8 +54,10 @@ class FavorisController extends AbstractController
     {
         if ($this->getUser()->getAimer()->contains($jeu)) {
             $this->getUser()->removeAimer($jeu);
+            $this->addFlash('noticer',$jeu->getNom().' supprimé des favoris');
         } else {
             $this->getUser()->addAimer($jeu);
+            $this->addFlash('notice',$jeu->getNom().' ajouté aux favoris');
         }
         $em->persist($this->getUser());
         $em->flush();
@@ -65,8 +69,10 @@ class FavorisController extends AbstractController
     {
         if ($this->getUser()->getAimer()->contains($jeu)) {
             $this->getUser()->removeAimer($jeu);
+            $this->addFlash('noticer',$jeu->getNom().' supprimé des favoris');
         } else {
             $this->getUser()->addAimer($jeu);
+            $this->addFlash('notice',$jeu->getNom().' ajouté aux favoris');
         }
         $em->persist($this->getUser());
         $em->flush();

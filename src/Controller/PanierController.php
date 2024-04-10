@@ -32,6 +32,7 @@ class PanierController extends AbstractController
         $em -> persist($panier);
         $em -> persist($this->getUser());
         $em -> flush();
+        $this->addFlash('notice',$jeu->getNom().' ajouté au panier');
         return $this->redirectToRoute('app_accueil');
     }
 
@@ -53,6 +54,7 @@ class PanierController extends AbstractController
         $em -> persist($panier);
         $em -> persist($this->getUser());
         $em -> flush();
+        $this->addFlash('notice',$jeu->getNom().' ajouté au panier');
         return $this->redirectToRoute('app_jeu', ['id'=> $jeu->getId()]);
     }
 
@@ -74,6 +76,7 @@ class PanierController extends AbstractController
         $em -> persist($panier);
         $em -> persist($this->getUser());
         $em -> flush();
+        $this->addFlash('notice',$jeu->getNom().' ajouté au panier');
         return $this->redirectToRoute('app_liste_favoris');
     }
 
@@ -89,6 +92,7 @@ class PanierController extends AbstractController
         }
         $em->persist($this->getUser());
         $em->flush();
+        $this->addFlash('noticer',$jeu->getNom().' supprimé du panier');
         return $this->redirectToRoute('app_jeu', ['id' => $jeu->getId()]);
     }
 
@@ -104,6 +108,7 @@ class PanierController extends AbstractController
         }
         $em->persist($this->getUser());
         $em->flush();
+        $this->addFlash('noticer',$jeu->getNom().' supprimé du panier');
         return $this->redirectToRoute('app_panier');
     }
 
@@ -119,6 +124,7 @@ class PanierController extends AbstractController
         }
         $em->persist($this->getUser());
         $em->flush();
+        $this->addFlash('noticer',$jeu->getNom().' supprimé du panier');
         return $this->redirectToRoute('app_accueil');
     }
 
@@ -134,6 +140,7 @@ class PanierController extends AbstractController
         }
         $em->persist($this->getUser());
         $em->flush();
+        $this->addFlash('noticer',$jeu->getNom().' supprimé du panier');
         return $this->redirectToRoute('app_liste_favoris');
     }
 
@@ -177,6 +184,13 @@ class PanierController extends AbstractController
         }
         $em->persist($this->getUser());
         $em->flush();
+        return $this->redirectToRoute('app_panier');
+    }
+
+    #[Route('/private-commander', name:'app_commander')]
+    public function commander(): Response
+    {
+        $this->addFlash('notice',' Commande passée');
         return $this->redirectToRoute('app_panier');
     }
 }
