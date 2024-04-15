@@ -39,7 +39,6 @@
 						{% if verif %}
 							<div class="col">
 								<div class="card pb-4 ">
-									<h6 class="card-header text-center">{{j.nom}}</h6>
 									<div class"card-body">
 										<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 									</div>
@@ -49,11 +48,11 @@
 										<div class="card-footer text-center">
 											<h6>{{j.prix}} €</h6>
 											<h6>
-												<a href="{{path('app_supp_quantite',{'id':j.id})}}">
+												<a href="{{path('app_supp_quantite',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Supprimer une quantité">
 													<i class="bi bi-dash-circle"></i>
 												</a>
-												{{qte}} 
-												<a href="{{path('app_ajout_quantite',{'id':j.id})}}">
+												{{qte}}
+												<a href="{{path('app_ajout_quantite',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Ajouter une quantité">
 													<i class="bi bi-plus-circle"></i>
 												</a>
 											</h6>
@@ -62,17 +61,19 @@
 									{% endif %}
 									{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 										{% if j in app.user.aimer %}
-											<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button">
+											<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer aux favoris">
 												<i class="bi bi-heart-fill" title="Mettre en favori"></i>
 											</a>
 										{% else %}
-											<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button">
+											<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter aux favoris">
 												<i class="bi bi-heart" title="Mettre en favori"></i>
 											</a>
 										{% endif %}											
-										<a class="btn btn-warning" href="{{path('app_supp_panier_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart-x-fill"></i></a>
+										<a class="btn btn-warning" href="{{path('app_supp_panier_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer du panier">
+											<i class="bi bi-cart-x-fill"></i>
+										</a>
 									{% else %}
-										<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button">
+										<a class="btn btn-danger" href="{{path('app_aimer_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter au panier">
 											<i class="bi bi-heart" title="Mettre en favori"></i>
 										</a>
 									{% endif %}
@@ -86,7 +87,7 @@
 		<div class="row m-3">
 			<div class="col">
 				<div class="d-grid gap-2 justify-content-center">
-					<a class="btn btn-success" href="{{path('app_commander')}}" role="button">
+					<a class="btn btn-success" href="{{path('app_commander')}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Commander">
 						Commander
 					</a>
 				</div>

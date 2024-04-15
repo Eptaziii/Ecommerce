@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    {{ parent() }}Recherche
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-10 text-primary">
+                <h1 class="text-center text-primary mt-4 pt-4 pb-4 display-1 fw-bold">
+                    Rechercher
+                </h1>
+            </div>
+        </div>
+        {{form_start(form)}}
+        {{form_widget(form.search)}}
+        {{form_row(form.rechercher)}}
+        {{form_end(form)}}
+    </div>
+{% endblock %}

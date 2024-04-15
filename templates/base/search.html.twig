@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{parent()}}Search
+{% endblock %}
+{% block body %}
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-10 text-primary">
+				<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+					SEARCH RÉSULTATS
+                </h1>
+                <h2 class="text-center text-secondary mt-4 pt-4 fw-bold">
+                    Pour : <br>
+                    {{mot}}
+                </h2>
+			</div>
+		</div>
+        <div class="row justify-content-center pt-3">
+			<div>
+				<div class="row row-cols-2 row-cols-md-5 g-4 pt-4">
+                    {% set nbJeux = 0 %}
+					{% for j in jeux | sort((a,b)=> a.nom <=> b.nom) %}
+                        {% if mot | lower in j.nom | lower %}
+                            {% set nbJeux = nbJeux + 1 %}
+                            <div class="col">
+                                <div class="card pb-4 ">
+                                    <div class"card-body">
+                                        <a href="{{path('app_jeu',{'id':j.id})}}"><img src="{{ asset('img/' ~ j.nom ~ '.jpg' ) }}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
+                                    </div>
+                                    {% if j.prix == 0 %}
+                                        <h6 class="card-footer text-center">GRATUIT</h6>
+                                    {% else %}
+                                        <div class="card-footer text-center">
+                                            <h6>{{j.prix}} €</h6>
+                                        </div>
+                                    {% endif %}
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        {% if j in app.user.aimer %}
+                                            <a class="btn btn-danger" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer aux favoris">
+                                                <i class="bi bi-heart-fill" title="Mettre en favori"></i>
+                                            </a>
+                                        {% else %}
+                                            <a class="btn btn-danger" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter aux favoris">
+                                                <i class="bi bi-heart" title="Mettre en favori"></i>
+                                            </a>
+                                        {% endif %}											
+                                        <a class="btn btn-warning" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer du panier">
+                                            <i class="bi bi-cart-x-fill"></i>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-danger" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter au panier">
+                                            <i class="bi bi-heart" title="Mettre en favori"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+						    </div>
+                        {% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+        {% if nbJeux == 0 %}
+            <h3 class="text-center text-danger pt-4 mt-4">!! Aucun jeu disponible pour cette recherche !!</h3>
+        {% endif %}
+	</div>
+{% endblock %}

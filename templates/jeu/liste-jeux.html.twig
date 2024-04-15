@@ -11,20 +11,37 @@
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
-                            <tr class="fw-bold text-primary">
+                            <tr class="fw-bold text-primary text-center">
                                 <th scope="col">Nom</th>
                                 <th scope="col">Catégorie</th>
                                 <th scope="col">Prix</th>
                                 <th scope="col">Description</th>
+                                <th scope="col" class="text-info">Modifier / Voir</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for jeu in jeux %}
-                            <tr class="{{ cycle(['table-primary','table-secondary'], loop.index0) }}">
-                            <td>{{ jeu.nom | capitalize }}</td>
-                            <td>{{ jeu.categorie.libelle | capitalize }}</td>
-                            <td>{{ jeu.prix }}</td>
-                            <td>{{ jeu.description }}</td>
+                            <tr class="{{ cycle(['table-primary','table-secondary'], loop.index0) }} text-center">
+                                <td>
+                                    {{ jeu.nom | capitalize }}
+                                </td>
+                                <td>
+                                    {{ jeu.categorie.libelle | capitalize }}
+                                </td>
+                                <td>
+                                    {{ jeu.prix }}
+                                </td>
+                                <td>
+                                    {{ jeu.description }}
+                                </td>
+                                <td>
+                                    <a href="{{path('app_modifier_jeu',{'id':jeu.id})}}">
+                                        <i class="bi bi-pen-fill"></i>
+                                    </a><br>
+                                    <a href="{{path('app_jeu',{'id':jeu.id})}}">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

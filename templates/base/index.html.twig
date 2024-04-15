@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
 	<div class="container-fluid">
-		<div class="text-center">
+		<div class="text-center" id="hPage">
 			<img src="img/banniere-ps5.jpg" alt="Bannière PS5" usemap="#image-map" class="img-fluid" style="max-width:100% height:auto"><br>
 			<map name="image-map">
 				<area shape="poly" coords="8,9, 128,9, 317,65, 301,76, 300,100, 315,108, 180,279, 8,215" href="https://www.amazon.fr/Console-PlayStation-5-Standard-Slim/dp/B0CLT54ZNZ/ref=sr_1_5?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1JC7AM9PORNU1&dib=eyJ2IjoiMSJ9.df8qNJP9Q2XrSHQSjqKQDgtR1O3cRdd13W64rIqSgcaTgehsorSfggDf3BGVkABJu94X2PMXxxzLykCS5pnYLODUP7NSnSZGvwHcrtlMWER-fY_npyzlIkJpcTIUkPxyz4NAPyavuDKFl8TM9gGLLw93bF3K76mLOr4-xkW1Jccof-B_gLWf2WIwRQb2sLtTm22osUMkETxx7sKhGD07paio-oEY3EgTRg1AUaSfqGC4imBuZKqAEgMfINxySB7w9LFjMWpIswfVoXRgUbf_5C7TUkHWYw_hYRNojEOZJBU.QVyLNOChfe5hZc9CdEAOEskQygHEKp0dGdWVr2cg_54&dib_tag=se&keywords=ps5&qid=1711095711&sprefix=ps5%2Caps%2C125&sr=8-5" title="Cliquez ici pour acheter une PS5 !">
@@ -66,11 +66,10 @@
 							{% for j in c.jeuxes | sort((a,b)=> a.nom <=> b.nom) %}
 								<div class="col">
 									<div class="card pb-4">
-										<div class="card-header text-center">
-											<h6>{{j.nom}}</h6>
-										</div>
 										<div class"card-body text-center">
-											<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
+											<a href="{{path('app_jeu',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Aller sur la page de {{j.nom}}">
+												<img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}">
+											</a>
 										</div>
 										{% if j.prix == 0 %}
 											<h6 class="card-footer text-center">GRATUIT</h6>
@@ -79,9 +78,13 @@
 										{% endif %}
 										{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 											{% if j in app.user.aimer %}
-												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart-fill" title="Mettre en favori"></i></a>
+												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer des favoris">
+													<i class="bi bi-heart-fill" title="Mettre en favori"></i>
+												</a>
 											{% else %}
-												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
+												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter aux favoris">
+													<i class="bi bi-heart" title="Mettre en favori"></i>
+												</a>
 											{% endif %}												
 											{% set verif = false %}
 											{% for panier in app.user.panier.ajouters %}
@@ -90,13 +93,21 @@
 												{% endif %}
 											{% endfor %}
 											{% if verif %}
-												<a class="btn btn-warning" href="{{path('app_supp_panier_accueil',{'id':j.id})}}" role="button"><i class="bi bi-cart-x-fill" title="Ajouter au panier"></i></a>
+												<a class="btn btn-warning" href="{{path('app_supp_panier_accueil',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer du panier">
+													<i class="bi bi-cart-x-fill" title="Ajouter au panier"></i>
+												</a>
 											{% else %}
-												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter au panier">
+													<i class="bi bi-cart" title="Ajouter au panier"></i>
+												</a>
 											{% endif %}
 										{% else %}
-											<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button"><i class="bi bi-heart" title="Mettre en favori"></i></a>
-											<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button"><i class="bi bi-cart" title="Ajouter au panier"></i></a>
+											<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter aux favoris">
+												<i class="bi bi-heart" title="Mettre en favori"></i>
+											</a>
+											<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter au panier">
+												<i class="bi bi-cart" title="Ajouter au panier"></i>
+											</a>
 										{% endif %}
 									</div>
 								</div>
@@ -108,6 +119,11 @@
 					</div>
 				{% endfor %}
 			</div>
+		</div>
+		<div class="sticky-bottom justify-content-end">
+			<a style="position:absolute;bottom:350px;right:5px;margin:0;padding:5px;" class="btn btn-primary-outline" href="#hPage" role="button" data-placement="bottom" data-toggle="tooltip" title="Retourner en haut de la page">
+				<i class="bi bi-arrow-up-circle-fill"></i>
+			</a>
 		</div>
 	</div>
 {% endblock %}

@@ -45,4 +45,14 @@ class JeuxRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function recherche($value): array
+    {
+        $qb = $this->createQueryBuilder('j');
+            $qb->andWhere( $qb->expr()->like('j.nom', ':value'))
+            ->setParameter('value', '%'.$value.'%')
+            ->orderBy('j.id', 'ASC')
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

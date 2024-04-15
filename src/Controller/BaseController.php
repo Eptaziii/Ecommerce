@@ -2,23 +2,24 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Jeux;
+use App\Form\JeuxType;
+use App\Entity\Contact;
+use App\Entity\Categorie;
+use App\Form\ContactType;
+use App\Form\RechercherType;
+use App\Repository\JeuxRepository;
+use App\Repository\CategorieRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Form\ContactType;
-use App\Form\JeuxType;
-use Symfony\Component\HttpFoundation\Request;
-use App\Entity\Contact;
-use App\Entity\Jeux;
-use App\Entity\Categorie;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\CategorieRepository;
-use App\Repository\JeuxRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
 {
     #[Route('/', name: 'app_accueil')]
-    public function index(CategorieRepository $categorieRepository, JeuxRepository $jeuxRepository): Response
+    public function index(CategorieRepository $categorieRepository, JeuxRepository $jeuxRepository, Request $request, EntityManagerInterface $em): Response
     {
         $jeux = $jeuxRepository->findAll();
         $categories = $categorieRepository->findAll();
@@ -64,6 +65,33 @@ class BaseController extends AbstractController
             }
         }    
         return $this->render('base/ajouter-jeux.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/search/{mot}', name: 'app_search')]
+    public function search(Request $request, JeuxRepository $jr): Response
+    {
+        $mot = $request->get('mot');
+        $jeux = $jr->recherche($mot);
+        return $this->render('base/search.html.twig', [
+            'mot'=>$mot,
+            'jeux'=> $jeux
+        ]);
+    }
+
+    #[Route('/recherche', name: 'app_recherche')]
+    public function searchMot(Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(RechercherType::class);
+        if($request->isMethod('POST')){
+            $form->handleRequest($request);
+            if ($form->isSubmitted()&&$form->isValid()){
+                $mot = $form->get('search')->getData();
+                return $this->redirectToRoute('app_search', ['mot'=>$mot]);
+            }
+        }
+        return $this->render('base/recherche.html.twig', [
             'form' => $form->createView()
         ]);
     }
