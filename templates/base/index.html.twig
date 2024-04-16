@@ -44,22 +44,31 @@
 		<h4 class="text-center text-success mt-4 pt-4 fw-bold"> Nombre de jeux disponibles : {{jeux | length}}</h4>
 		<h5 class="text-center text-primary mt-4 pt-4 fw-bold">
 			Liste des jeux par catégorie</h5>
+		<div class="row row-cols-2 row-cols-md-6 text-center pt-5">
+		{% set nb = 0 %}
+			{% for c in categories | sort((a,b)=> a.libelle <=> b.libelle) %}
+				<div class="col pt-3">
+					<h6><a href="#cat.{{nb}}" style="text-decoration:none">{{c.libelle | upper}}</a></h6>
+				</div>
+				{% set nb = nb + 1 %}
+			{% endfor %}
+		</div>
 		<div class="row justify-content-center pt-5">
 			<div>
+				{% set nbCat = 0 %}
 				{% for c in categories | sort((a,b)=> a.libelle <=> b.libelle) %}
-					{% if c.jeuxes | length == 1 %}
-						<h2 class"text-white">
-							<strong>{{c.libelle | upper }}</strong><strong class="text-secondary"> ({{c.jeuxes | length}} Jeu)</strong>
-						</h2>
-					{% elseif c.jeuxes | length == 0 %}
+					<div id="cat.{{nbCat}}">
 						<h2 class"text-white">
 							<strong>{{c.libelle | upper }}</strong>
+						{% if c.jeuxes | length == 1 %}
+							<strong class="text-secondary"> ({{c.jeuxes | length}} Jeu)</strong>
+						{% elseif c.jeuxes | length == 0 %}
+						{% else %}
+							<strong class="text-secondary"> ({{c.jeuxes | length}} Jeux)</strong>
+						{% endif %}
 						</h2>
-					{% else %}
-						<h2 class"text-white">
-							<strong>{{c.libelle | upper }}</strong><strong class="text-secondary"> ({{c.jeuxes | length}} Jeux)</strong>
-						</h2>
-					{% endif %}
+					</div>
+					{% set nbCat = nbCat + 1 %}
 					<div class"card-group g-4 pt-4">
 						{% if c.jeuxes | length > 0 %}
 						<div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4 pt-4">
@@ -121,7 +130,7 @@
 			</div>
 		</div>
 		<div class="sticky-bottom justify-content-end">
-			<a style="position:absolute;bottom:350px;right:5px;margin:0;padding:5px;" class="btn btn-primary-outline" href="#hPage" role="button" data-placement="bottom" data-toggle="tooltip" title="Retourner en haut de la page">
+			<a style="position:absolute;bottom:350px;right:5px;margin:0;padding:5px;" class="btn btn-primary-outline btn-lg" href="#hPage" role="button" data-placement="bottom" data-toggle="tooltip" title="Retourner en haut de la page">
 				<i class="bi bi-arrow-up-circle-fill"></i>
 			</a>
 		</div>
