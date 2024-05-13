@@ -7,6 +7,7 @@ use App\Entity\Video;
 use App\Form\ModifierJeuxType;
 use App\Repository\JeuxRepository;
 use App\Repository\VideoRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,18 +26,20 @@ class JeuController extends AbstractController
         ]);
     }
 
-    #[Route('/jeu/{id}', name: 'app_jeu')]
-    public function jeu(Jeux $jeu, VideoRepository $vr): Response
+    #[Route('/jeu/{nom}', name: 'app_jeu')]
+    public function jeu(Jeux $jeu, VideoRepository $vr, Jeuxrepository $jr): Response
     { 
+        $jeux = $jr->findAll();
         $videos = $vr->findAll();
         return $this->render('jeu/jeu.html.twig', [
             'jeu' => $jeu,
-            'videos' => $videos
+            'videos' => $videos,
+            'jeux' => $jeux
             
         ]);
     }
 
-    #[Route('/mod-modifier-jeu/{id}', name: 'app_modifier_jeu')]
+    #[Route('/mod-modifier-jeu/{nom}', name: 'app_modifier_jeu')]
     public function modifierJeux(Request $request,Jeux $jeu,EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ModifierJeuxType::class, $jeu);

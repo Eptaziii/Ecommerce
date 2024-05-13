@@ -12,16 +12,20 @@
                     <table class="table table-hover">
                         <thead>
                             <tr class="fw-bold text-primary text-center">
+                                <th scope="col">#</th>
                                 <th scope="col">Nom</th>
                                 <th scope="col">Catégorie</th>
                                 <th scope="col">Prix</th>
-                                <th scope="col">Description</th>
                                 <th scope="col" class="text-info">Modifier / Voir</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for jeu in jeux %}
-                            <tr class="{{ cycle(['table-primary','table-secondary'], loop.index0) }} text-center">
+                        {% set i = 1 %}
+                        {% for jeu in jeux | sort((a,b)=> a.nom <=> b.nom )%}
+                            <tr class="text-center">
+                                <td>
+                                    {{i}}
+                                </td>
                                 <td>
                                     {{ jeu.nom | capitalize }}
                                 </td>
@@ -32,17 +36,15 @@
                                     {{ jeu.prix }}
                                 </td>
                                 <td>
-                                    {{ jeu.description }}
-                                </td>
-                                <td>
-                                    <a href="{{path('app_modifier_jeu',{'id':jeu.id})}}">
+                                    <a href="{{path('app_modifier_jeu',{'nom':jeu.nom})}}">
                                         <i class="bi bi-pen-fill"></i>
                                     </a><br>
-                                    <a href="{{path('app_jeu',{'id':jeu.id})}}">
+                                    <a href="{{path('app_jeu',{'nom':jeu.nom})}}">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 </td>
                             </tr>
+                            {% set i = i + 1 %}
                         {% endfor %}
                         </tbody>
                     </table>

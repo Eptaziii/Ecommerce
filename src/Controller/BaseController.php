@@ -95,4 +95,10 @@ class BaseController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/mentions-legales', name:'app_ml')]
+    public function ml(): Response
+    {
+        return $this->render('base/ml.html.twig');
+    }
 }

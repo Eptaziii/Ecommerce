@@ -28,7 +28,7 @@
 				</div>
 				{% for j in jeux | sort((a,b)=> a.nom <=> b.nom) %}
 					<div class="carousel-item">
-						<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
+						<a href="{{path('app_jeu',{'nom':j.nom})}}"><img style="border-radius:40px" src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 					</div>
 				{% endfor %}
 			</div>
@@ -45,19 +45,20 @@
 		<h5 class="text-center text-primary mt-4 pt-4 fw-bold">
 			Liste des jeux par catégorie</h5>
 		<div class="row row-cols-2 row-cols-md-6 text-center pt-5">
-		{% set nb = 0 %}
 			{% for c in categories | sort((a,b)=> a.libelle <=> b.libelle) %}
 				<div class="col pt-3">
-					<h6><a href="#cat.{{nb}}" style="text-decoration:none">{{c.libelle | upper}}</a></h6>
+					<div class="d-grid gap-2">
+						<a class="btn btn-primary" style="border-radius:50px" href="#{{c.libelle}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Aller vers {{c.libelle}}">
+							{{c.libelle}}
+						</a>
+					</div>
 				</div>
-				{% set nb = nb + 1 %}
 			{% endfor %}
 		</div>
 		<div class="row justify-content-center pt-5">
 			<div>
-				{% set nbCat = 0 %}
 				{% for c in categories | sort((a,b)=> a.libelle <=> b.libelle) %}
-					<div id="cat.{{nbCat}}">
+					<div id="{{c.libelle}}">
 						<h2 class"text-white">
 							<strong>{{c.libelle | upper }}</strong>
 						{% if c.jeuxes | length == 1 %}
@@ -68,16 +69,15 @@
 						{% endif %}
 						</h2>
 					</div>
-					{% set nbCat = nbCat + 1 %}
 					<div class"card-group g-4 pt-4">
 						{% if c.jeuxes | length > 0 %}
 						<div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-4 pt-4">
 							{% for j in c.jeuxes | sort((a,b)=> a.nom <=> b.nom) %}
 								<div class="col">
-									<div class="card pb-4">
-										<div class"card-body text-center">
-											<a href="{{path('app_jeu',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Aller sur la page de {{j.nom}}">
-												<img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}">
+									<div class="card bg-transparent pb-4" style="border-radius:25px">
+										<div class"card-body text-center" style="border-radius:30px">
+											<a href="{{path('app_jeu',{'nom':j.nom})}}" data-placement="bottom" data-toggle="tooltip" title="Aller sur la page de {{j.nom}}">
+												<img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}" style="border-radius:30px">
 											</a>
 										</div>
 										{% if j.prix == 0 %}
@@ -94,22 +94,28 @@
 												<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter aux favoris">
 													<i class="bi bi-heart" title="Mettre en favori"></i>
 												</a>
-											{% endif %}												
-											{% set verif = false %}
-											{% for panier in app.user.panier.ajouters %}
-												{% if panier.jeux == j %}
-													{% set verif = true %}
+											{% endif %}	
+											{% if app.user.panier != null %}
+												{% set verif = false %}
+												{% for panier in app.user.panier.ajouters %}
+													{% if panier.jeux == j %}
+														{% set verif = true %}
+													{% endif %}
+												{% endfor %}
+												{% if verif %}
+													<a class="btn btn-warning" href="{{path('app_supp_panier_accueil',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer du panier">
+														<i class="bi bi-cart-x-fill" title="Ajouter au panier"></i>
+													</a>
+												{% else %}
+													<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter au panier">
+														<i class="bi bi-cart" title="Ajouter au panier"></i>
+													</a>
 												{% endif %}
-											{% endfor %}
-											{% if verif %}
-												<a class="btn btn-warning" href="{{path('app_supp_panier_accueil',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Supprimer du panier">
-													<i class="bi bi-cart-x-fill" title="Ajouter au panier"></i>
-												</a>
 											{% else %}
 												<a class="btn btn-success" href="{{path('app_ajout_panier',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter au panier">
 													<i class="bi bi-cart" title="Ajouter au panier"></i>
 												</a>
-											{% endif %}
+											{% endif %}											
 										{% else %}
 											<a class="btn btn-danger" href="{{path('app_aimer',{'id':j.id})}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Ajouter aux favoris">
 												<i class="bi bi-heart" title="Mettre en favori"></i>

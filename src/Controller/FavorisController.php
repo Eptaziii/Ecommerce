@@ -79,4 +79,18 @@ class FavorisController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_jeu', ['id'=> $jeu->getId()]);
     }
+
+    #[Route('/private-desaimer-all', name: 'app_desaimer_all')]
+    public function desaimerAll(EntityManagerInterface $em): Response
+    {
+        foreach ($this->getUser()->getAimer() as $aimer){
+            if ($this->getUser()->getAimer()->contains($aimer)) {
+                $this->getUser()->removeAimer($aimer);
+            }
+        }
+        $em->persist($this->getUser());
+        $em->flush();
+        $this->addFlash('noticer','Tous les jeux ont été supprimé des favoris');
+        return $this->redirectToRoute('app_liste_favoris');
+    }
 }

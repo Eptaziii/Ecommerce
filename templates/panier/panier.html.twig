@@ -6,6 +6,15 @@
 	<div class="container-fluid">
 		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
 			Panier</h1>
+		<div class="row m-3">
+			<div class="col">
+				<div class="d-grid gap-2 justify-content-center">
+					<a class="btn btn-danger" style="border-radius:50px" href="{{path('app_supp_panier_all')}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Tout enlever du panier">
+						Tout supprimer
+					</a>
+				</div>
+			</div>
+		</div>
 		{% set prixTT = 0 %}
 		{% for j in jeux %}
 			{% set qte = 0 %}
@@ -38,9 +47,9 @@
 						{% endfor %}
 						{% if verif %}
 							<div class="col">
-								<div class="card pb-4 ">
-									<div class"card-body">
-										<a href="{{path('app_jeu',{'id':j.id})}}"><img src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
+								<div class="card pb-4 style="border-radius:25px"">
+									<div class"card-body style="border-radius:30px"">
+										<a href="{{path('app_jeu',{'nom':j.nom})}}"><img style="border-radius:30px" src="img/{{j.nom}}.{{j.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
 									</div>
 									{% if j.prix == 0 %}
 										<h6 class="card-footer text-center">GRATUIT</h6>
@@ -48,13 +57,9 @@
 										<div class="card-footer text-center">
 											<h6>{{j.prix}} €</h6>
 											<h6>
-												<a href="{{path('app_supp_quantite',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Supprimer une quantité">
-													<i class="bi bi-dash-circle"></i>
-												</a>
+												<a href="{{path('app_supp_quantite',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Supprimer une quantité"><i class="bi bi-dash-circle"></i></a>
 												{{qte}}
-												<a href="{{path('app_ajout_quantite',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Ajouter une quantité">
-													<i class="bi bi-plus-circle"></i>
-												</a>
+												<a href="{{path('app_ajout_quantite',{'id':j.id})}}" data-placement="bottom" data-toggle="tooltip" title="Ajouter une quantité"><i class="bi bi-plus-circle"></i></a>
 											</h6>
 											<h6> Prix total du jeu : {{prixTJeu}} €</h6>
 										</div>

@@ -25,7 +25,7 @@
                             <div class="col">
                                 <div class="card pb-4 ">
                                     <div class"card-body">
-                                        <a href="{{path('app_jeu',{'id':j.id})}}"><img src="{{ asset('img/' ~ j.nom ~ '.jpg' ) }}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
+                                        <a href="{{path('app_jeu',{'nom':j.nom})}}"><img src="{{ asset('img/' ~ j.nom ~ '.jpg' ) }}" class="card-img-top" alt="Image du jeu: {{j.nom}}"></a>
                                     </div>
                                     {% if j.prix == 0 %}
                                         <h6 class="card-footer text-center">GRATUIT</h6>

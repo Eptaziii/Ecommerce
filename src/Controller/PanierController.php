@@ -188,9 +188,30 @@ class PanierController extends AbstractController
     }
 
     #[Route('/private-commander', name:'app_commander')]
-    public function commander(): Response
+    public function commander(EntityManagerInterface $em): Response
     {
+        foreach ($this->getUser()->getPanier()->getAjouters() as $ajouter) {
+            if ($this->getuser()->getPanier()->getAjouters()->contains($ajouter)) {
+                $this->getUser()->getPanier()->removeAjouter($ajouter);
+            }
+        }
+        $em->persist($this->getUser());
+        $em->flush();
         $this->addFlash('notice',' Commande passée');
+        return $this->redirectToRoute('app_panier');
+    }
+
+    #[Route('/private-supp-panier-all', name:'app_supp_panier_all')]
+    public function suppPanierAll(EntityManagerInterface $em): Response
+    {
+        foreach ($this->getUser()->getPanier()->getAjouters() as $ajouter) {
+            if ($this->getuser()->getPanier()->getAjouters()->contains($ajouter)) {
+                $this->getUser()->getPanier()->removeAjouter($ajouter);
+            }
+        }
+        $em->persist($this->getUser());
+        $em->flush();
+        $this->addFlash('noticer','Tous les jeux ont été supprimé du panier');
         return $this->redirectToRoute('app_panier');
     }
 }

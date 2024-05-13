@@ -6,14 +6,23 @@
 	<div class="container-fluid">
 		<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
 			Liste des favoris</h1>
+		<div class="row m-3">
+			<div class="col">
+				<div class="d-grid gap-2 justify-content-center">
+					<a class="btn btn-danger" style="border-radius:50px" href="{{path('app_desaimer_all')}}" role="button" data-placement="bottom" data-toggle="tooltip" title="Tout enlever aux favoris">
+						Tout supprimer
+					</a>
+				</div>
+			</div>
+		</div>
 		<div class="row justify-content-center pt-5">
 				<div>
 					<div class="row row-cols-2 row-cols-md-5 g-4 pt-4">
 						{% for f in favoris | sort((a,b)=> a.nom <=> b.nom)%}
 							<div class="col">
-								<div class="card pb-4 ">
-									<div class"card-body">
-										<a href="{{path('app_jeu',{'id':f.id})}}"><img src="img/{{f.nom}}.{{f.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{f.nom}}"></a>
+								<div class="card pb-4" style="border-radius:25px">
+									<div class"card-body" style="border-radius:30px">
+										<a href="{{path('app_jeu',{'nom':f.nom})}}"><img style="border-radius:30px" src="img/{{f.nom}}.{{f.images[0].extension}}" class="card-img-top" alt="Image du jeu: {{f.nom}}"></a>
 									</div>
 									{% if f.prix == 0 %}
 										<h6 class="card-footer text-center">GRATUIT</h6>
