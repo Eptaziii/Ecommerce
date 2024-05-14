@@ -73,7 +73,7 @@ class BaseController extends AbstractController
     public function search(Request $request, JeuxRepository $jr): Response
     {
         $mot = $request->get('mot');
-        $jeux = $jr->recherche($mot);
+        $jeux = $jr->findAll();
         return $this->render('base/search.html.twig', [
             'mot'=>$mot,
             'jeux'=> $jeux
@@ -100,5 +100,17 @@ class BaseController extends AbstractController
     public function ml(): Response
     {
         return $this->render('base/ml.html.twig');
+    }
+
+    #[Route('/conditions-generales-de-vente', name:'app_cg')]
+    public function cg(): Response
+    {
+        return $this->render('base/cg.html.twig');
+    }
+
+    #[Route('/politique-de-confidentialité', name:'app_pc')]
+    public function pc(): Response
+    {
+        return $this->render('base/pc.html.twig');
     }
 }
