@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{parent()}}Liste Commandes
+{% endblock %}
+{% block body %}
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-10 text-primary">
+				<h1 class="text-center text-primary mt-4 pt-4 display-1 fw-bold">
+					Liste des commandes</h1>
+			</div>
+		</div>
+        {% set nbCommandes = 0 %}
+        {% set nbJeuxCommande = 0 %}
+        {% for commande in commandes %}
+            {% if commande.email == app.user.email %}
+            {% set nbCommandes = nbCommandes + 1 %}
+            <h2>Commande n°{{nbCommandes}}</h2>
+            {% set jeuQ = [commande.jeux] %}
+            {{dump(jeuQ)}}
+            {% for jeu in jeux %}
+                {% for i in 0..commande.jeux|length-1 %}
+                    {% set currentKey = commande.jeux %}
+                    {% set currentKey = currentKey[i] %}
+                    {% if jeu.nom == currentKey %}
+                        {{jeu.nom}}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+            {# {{ dump(commande.jeux) }} #}
+            {% endif %}
+        {% endfor %}
+	</div>
+{% endblock %}

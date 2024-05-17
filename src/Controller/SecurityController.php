@@ -73,4 +73,13 @@ class SecurityController extends AbstractController
             'users'=>$users
         ]);
     }
+
+    #[Route('/private-supp-compte', name:'app_supp_compte')]
+    public function suppCompte(EntityManagerInterface $em): Response
+    {
+        $em->remove($this->getUser());
+        $em->flush();
+        $this->addFlash('noticer','Compte supprimé');
+        return $this->redirectToRoute('app_accueil');
+    }
 }

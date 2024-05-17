@@ -26,6 +26,9 @@ class Commande
     #[ORM\Column]
     private array $jeux = [];
 
+    #[ORM\Column]
+    private ?float $prix = null;
+
     #[ORM\Column(length: 100)]
     private ?string $adresseFac = null;
 
@@ -81,6 +84,18 @@ class Commande
     public function setJeux(array $jeux): static
     {
         $this->jeux = $jeux;
+
+        return $this;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(float $prix): static
+    {
+        $this->prix = $prix;
 
         return $this;
     }
